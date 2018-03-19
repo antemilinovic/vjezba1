@@ -1,0 +1,102 @@
+Module Module1
+    Private Class BankAccount
+        Private accNumber As Long
+        Private accBalance As Decimal
+        Private accOwner As String
+
+        Private Shared uniNumber As Long
+
+        Function GetAccNumber() As Long
+            Return accNumber
+        End Function
+
+        Function GetAccBalance() As Decimal
+            Return accBalance
+        End Function
+
+        Function GetAccOwner() As String
+            Return accOwner
+        End Function
+
+        Public Sub New(ByVal accOwnerValue As String)
+            accOwner = accOwnerValue
+            accNumber = uniNumber
+            uniNumber += 1
+        End Sub
+
+        Function Withdraw(ByVal unos As Decimal)
+            unos = Console.ReadLine()
+
+            If accBalance = unos Then
+                accBalance = accBalance - unos
+                Console.WriteLine("Novac je uspješno podignut!")
+                Console.WriteLine("Preostali iznos na raèunu je {0}.", accBalance)
+                Return True
+            Else
+                Console.WriteLine("Zahtijevani iznos nije raspoloživ!")
+                Return False
+            End If
+        End Function
+
+        Function Deposit(ByVal unos As Decimal)
+            unos = Console.ReadLine()
+            If unos >= 1 Then
+                accBalance += 1
+                Console.WriteLine("Novac je uspješno stavljen na raèun.")
+                Console.WriteLine("Novi iznos na raèunu je: {0}.", accBalance)
+                Return True
+            Else
+                Console.WriteLine("Stavili ste nedovoljno novca na raèun.")
+                Return False
+            End If
+        End Function
+
+        Property vlasnik() As String
+            Get
+                Return accOwner
+            End Get
+            Set(value As String)
+                accOwner = value
+            End Set
+        End Property
+    End Class
+
+    Sub Main()
+        Dim unos As String
+        Dim imeRacuna As String
+        Dim brojRacuna As Long
+        Dim iznosRacuna As Decimal
+        Console.WriteLine("UNESITE IME VLASNIKA RAÈUNA: ")
+        imeRacuna = Console.ReadLine()
+        Console.WriteLine("UNESITE BROJ RAÈUNA: ")
+        brojRacuna = Console.ReadLine()
+
+        Console.WriteLine("Vaš raèun je napravljen. Ime: {0} s brojem raèuna {1}", imeRacuna, brojRacuna)
+
+        Dim bankAcc As BankAccount = New BankAccount(imeRacuna)
+
+        Do
+            Console.WriteLine("Izbornik:")
+            Console.WriteLine("1 - Podizanje novca")
+            Console.WriteLine("2 - Polaganje novca")
+            Console.WriteLine("3 - Stanje racuna")
+            Console.WriteLine("4 - Prekid/Izlaz")
+            unos = Console.ReadLine()
+
+            Select Case unos
+                Case "1"
+                    Console.WriteLine("Unesite iznos koji želite podignuti: ")
+                    iznosRacuna = Console.ReadLine()
+                    bankAcc.Withdraw(iznosRacuna)
+                Case "2"
+                    Console.WriteLine("Unesite iznos koji biste htjeli položiti: ")
+                    iznosRacuna = Console.ReadLine()
+                    bankAcc.Deposit(iznosRacuna)
+                Case "3"
+                    Console.WriteLine("Stanje racuna je {0}.", bankAcc.GetAccBalance)
+            End Select
+        Loop While unos < 4
+
+        Console.ReadKey()
+    End Sub
+End Module
