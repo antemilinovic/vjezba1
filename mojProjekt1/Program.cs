@@ -9,7 +9,7 @@ namespace mojProjekt1
     {
         static void Main(string[] args)
         {
-            
+            Console.WriteLine("HelloWorld");
         }
     }
 }
